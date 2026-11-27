@@ -1,4 +1,3 @@
-#![feature(assert_matches)]
 
 mod assembler;
 mod flags;
