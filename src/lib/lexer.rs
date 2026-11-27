@@ -138,7 +138,7 @@ impl<'a> Iterator for Lexer<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::assert_matches::assert_matches;
+    use std::assert_matches;
 
     #[test]
     fn lex_instruction() {
