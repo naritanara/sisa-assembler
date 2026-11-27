@@ -13,7 +13,7 @@ name = "sas"
 path = "src/main.rs"
 
 [dependencies]
-plex = "0.2"
+plex = "0.3"
 colorful = "0.2"
 easy_nodes = { path = "easy_nodes" }
 

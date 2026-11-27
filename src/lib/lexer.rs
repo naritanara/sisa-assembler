@@ -138,19 +138,20 @@ impl<'a> Iterator for Lexer<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::assert_matches;
 
     #[test]
     fn lex_instruction() {
         let mut lexer = Lexer::new("LDB R1, 32(R3)");
 
-        std::assert_matches!(lexer.next(), Some((Token::Ldb, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Reg(1), _)));
-        std::assert_matches!(lexer.next(), Some((Token::Comma, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lit(32), _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lpar, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Reg(3), _)));
-        std::assert_matches!(lexer.next(), Some((Token::Rpar, _)));
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), Some((Token::Ldb, _)));
+        assert_matches!(lexer.next(), Some((Token::Reg(1), _)));
+        assert_matches!(lexer.next(), Some((Token::Comma, _)));
+        assert_matches!(lexer.next(), Some((Token::Lit(32), _)));
+        assert_matches!(lexer.next(), Some((Token::Lpar, _)));
+        assert_matches!(lexer.next(), Some((Token::Reg(3), _)));
+        assert_matches!(lexer.next(), Some((Token::Rpar, _)));
+        assert_matches!(lexer.next(), None);
     }
 
     #[test]
@@ -161,65 +162,65 @@ mod tests {
             Some((Token::Ident(name), _)) => assert_eq!(name, "lab"),
             _ => panic!(),
         }
-        std::assert_matches!(lexer.next(), Some((Token::Colon, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lpar, _)));
+        assert_matches!(lexer.next(), Some((Token::Colon, _)));
+        assert_matches!(lexer.next(), Some((Token::Lpar, _)));
         match lexer.next() {
             Some((Token::Ident(name), _)) => assert_eq!(name, "lab"),
             _ => panic!(),
         }
-        std::assert_matches!(lexer.next(), Some((Token::Rpar, _)));
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), Some((Token::Rpar, _)));
+        assert_matches!(lexer.next(), None);
     }
 
     #[test]
     fn lex_invalid() {
         let mut lexer = Lexer::new(".");
 
-        std::assert_matches!(lexer.next(), Some((Token::Invalid(_), _)));
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), Some((Token::Invalid(_), _)));
+        assert_matches!(lexer.next(), None);
     }
 
     #[test]
     fn lex_whitespace() {
         let mut lexer = Lexer::new("    \n    \t   ");
 
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), None);
     }
 
     #[test]
     fn lex_functions() {
         let mut lexer = Lexer::new("lo(0) hi(0)");
 
-        std::assert_matches!(lexer.next(), Some((Token::Lo, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lpar, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lit(0), _)));
-        std::assert_matches!(lexer.next(), Some((Token::Rpar, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Hi, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lpar, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Lit(0), _)));
-        std::assert_matches!(lexer.next(), Some((Token::Rpar, _)));
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), Some((Token::Lo, _)));
+        assert_matches!(lexer.next(), Some((Token::Lpar, _)));
+        assert_matches!(lexer.next(), Some((Token::Lit(0), _)));
+        assert_matches!(lexer.next(), Some((Token::Rpar, _)));
+        assert_matches!(lexer.next(), Some((Token::Hi, _)));
+        assert_matches!(lexer.next(), Some((Token::Lpar, _)));
+        assert_matches!(lexer.next(), Some((Token::Lit(0), _)));
+        assert_matches!(lexer.next(), Some((Token::Rpar, _)));
+        assert_matches!(lexer.next(), None);
     }
 
     #[test]
     fn lex_directives() {
         let mut lexer = Lexer::new(".text .data .byte .word .space .even .end .text");
 
-        std::assert_matches!(lexer.next(), Some((Token::BeginText, _)));
-        std::assert_matches!(lexer.next(), Some((Token::BeginData, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Byte, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Word, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Space, _)));
-        std::assert_matches!(lexer.next(), Some((Token::Even, _)));
-        std::assert_matches!(lexer.next(), Some((Token::End, _)));
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), Some((Token::BeginText, _)));
+        assert_matches!(lexer.next(), Some((Token::BeginData, _)));
+        assert_matches!(lexer.next(), Some((Token::Byte, _)));
+        assert_matches!(lexer.next(), Some((Token::Word, _)));
+        assert_matches!(lexer.next(), Some((Token::Space, _)));
+        assert_matches!(lexer.next(), Some((Token::Even, _)));
+        assert_matches!(lexer.next(), Some((Token::End, _)));
+        assert_matches!(lexer.next(), None);
     }
 
     #[test]
     fn span() {
         let mut lexer = Lexer::new("    \n MOVI");
 
-        std::assert_matches!(
+        assert_matches!(
             lexer.next(),
             Some((
                 _,
@@ -229,6 +230,6 @@ mod tests {
                 }
             ))
         );
-        std::assert_matches!(lexer.next(), None);
+        assert_matches!(lexer.next(), None);
     }
 }
