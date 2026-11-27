@@ -8,7 +8,7 @@ This is an assembler for the SISA assembly language, written in Rust!
 ## Installation
 Execute the following commands:
 ```shell
-git clone https://github.com/rdvdev2/sisa-assembler.git
+git clone https://github.com/naritanara/sisa-assembler.git
 cd sisa-assembler
 cargo install --path .
 ```
